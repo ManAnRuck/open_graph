@@ -11,7 +11,7 @@ namespace maru\og;
 class OpenGraph
 {
     /** @var \OOArticle $curArticle */
-    protected static $curArticle;
+    public static $curArticle;
     protected static $images = array();
     protected static $description;
     protected static $title;
@@ -131,6 +131,8 @@ class OpenGraph
 
         $return .= self::getTitleHTML();
 
+        $return .= self::getUrlHTML();
+
         $return .= self::getDescriptionHTML();
 
         $return .= self::getImagesHTML();
@@ -153,6 +155,20 @@ class OpenGraph
             self::$siteName = $REX['SERVERNAME'];
         }
         $return = '<meta property="og:site_name" content="' . self::$siteName . '">';
+
+        return $return . "\n\t";
+    }
+
+    public static function getUrlHTML()
+    {
+        global $REX;
+
+        /**
+         * generate html for og:title
+         */
+        if (self::$url) {
+            $return = '<meta property="og:url" content="' . self::$url . '">';
+        }
 
         return $return . "\n\t";
     }
