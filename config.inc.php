@@ -17,6 +17,7 @@ $REX['ADDON']['perm'][$myself] = $myself . '[]';
 
 require_once($REX['INCLUDE_PATH'] . '/addons/' . $myself . '/classes/class.opengraph.inc.php');
 require_once($REX['INCLUDE_PATH'] . '/addons/' . $myself . '/classes/class.image.inc.php');
+require_once($REX['INCLUDE_PATH'] . '/addons/' . $myself . '/classes/class.profile.inc.php');
 
 define('OPENGRAPH_DATA_DIR', $REX['INCLUDE_PATH'] . '/data/addons/' . $myself . '/');
 

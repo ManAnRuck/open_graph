@@ -18,6 +18,8 @@ class OpenGraph
     protected static $url;
     protected static $siteName;
     protected static $type;
+    /** @var Profile $profile */
+    protected static $profile;
     public static $debug = false;
 
     public static function getSettingsFile()
@@ -135,6 +137,8 @@ class OpenGraph
 
         $return .= self::getDescriptionHTML();
 
+        $return .= self::getProfileHTML();
+
         $return .= self::getImagesHTML();
 
         $return .= self::getTypeValuesHTML();
@@ -213,6 +217,30 @@ class OpenGraph
         }
 
         return $return . "\n\t";
+    }
+
+    public static function getProfileHTML()
+    {
+        $return = [];
+        /**
+         * generate html for og:title
+         */
+        if (self::$profile) {
+            if(self::$profile->getFirstName()) {
+                $return[] = '<meta property="profile:first_name" content="' . self::$profile->getFirstName() . '">';
+            }
+            if(self::$profile->getLastName()) {
+                $return[] = '<meta property="profile:last_name" content="' . self::$profile->getLastName() . '">';
+            }
+            if(self::$profile->getUsername()) {
+                $return[] = '<meta property="profile:username" content="' . self::$profile->getUsername() . '">';
+            }
+            if(self::$profile->getGender()) {
+                $return[] = '<meta property="profile:gender" content="' . self::$profile->getGender() . '">';
+            }
+        }
+
+        return implode("\n\t", $return) . "\n\t";
     }
 
     public static function getDescriptionHTML()
@@ -406,6 +434,30 @@ class OpenGraph
     {
         self::$type = $type;
     }
+
+    /**
+     * @return Profile
+     */
+    public static function getProfile()
+    {
+        return self::$profile;
+    }
+
+    /**
+     * @param Profile $profile
+     */
+    public static function setProfile($profile)
+    {
+        if (!$profile instanceof Profile) {
+            if (self::$debug) {
+                throw new \Exception('Image must be a type of \maru\og\Image');
+            }
+        } else {
+            self::$profile = $profile;
+        }
+    }
+
+
 
 
 }
