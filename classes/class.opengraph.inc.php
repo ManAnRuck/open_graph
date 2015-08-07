@@ -166,6 +166,7 @@ class OpenGraph
     public static function getUrlHTML()
     {
         global $REX;
+        $return = '';
 
         /**
          * generate html for og:title
@@ -342,17 +343,25 @@ class OpenGraph
     }
 
     /**
-     * @param $image Image
+     * @param $image mixed
      */
     public static function addImage($image)
     {
         if (!$image instanceof Image) {
             if (self::$debug) {
-                throw new \Exception('Image must be a type of \maru\og\Image');
+                //throw new \Exception('Image must be a type of \maru\og\Image');
             }
         } else {
             self::$images[] = $image;
         }
+    }
+
+    /**
+     * @return array
+     */
+    public static function getImages()
+    {
+        return self::$images;
     }
 
     /**

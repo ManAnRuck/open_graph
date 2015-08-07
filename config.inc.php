@@ -49,4 +49,9 @@ if (!$REX['REDAXO']) {
         global $REX;
         \maru\og\OpenGraph::initArticle($REX['ARTICLE_ID']);
     });
+    rex_register_extension('OUTPUT_FILTER', function ($params) {
+        global $REX;
+        $params['subject'] = str_replace('</head>', "<!-- OpenGraph -->\n\t".\maru\og\OpenGraph::getAllHTML() . "\n</head>", $params['subject']);
+        return $params['subject'];
+    });
 }
