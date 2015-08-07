@@ -21,7 +21,7 @@ if (version_compare($REX['VERSION'] . '.' . $REX['SUBVERSION'] . '.' . $REX['MIN
 
 if (count($error) == 0) {
     $sql = new rex_sql();
-    $sql->debugsql = true;
+    //$sql->debugsql = true;
 
     $sql->setQuery('ALTER TABLE `' . $REX['TABLE_PREFIX'] . 'article` ADD `art_open_graph` TEXT, ADD `art_open_graph_title` TEXT, ADD `art_open_graph_type` VARCHAR(255), ADD `art_open_graph_typevalues` TEXT, ADD `art_open_graph_description` TEXT, ADD `art_open_graph_site_name` TEXT, ADD `art_open_graph_images` TEXT');
 

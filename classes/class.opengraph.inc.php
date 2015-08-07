@@ -168,6 +168,8 @@ class OpenGraph
             self::$type = self::$type;
         } elseif (self::$curArticle->getValue('art_open_graph_type')) {
             self::$type = self::$curArticle->getValue('art_open_graph_type');
+        } else {
+            self::$type = 'website';
         }
         $return = '<meta property="og:type" content="' . self::$type . '">';
 
