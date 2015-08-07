@@ -1,1 +1,9 @@
 opengraph_install_rex_version = Dieses AddOn benötigt REDAXO Version 4.5.0 oder höher.
+
+open_graph_config_ok = Einstellungen gespeichert
+
+open_graph_settings = Einstellungen
+open_graph_settings_https = HTTPS
+open_graph_settings_submit = Einstellungen speichern
+
+open_graph_help = Hilfe
