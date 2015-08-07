@@ -20,6 +20,8 @@ class OpenGraph
     protected static $type;
     /** @var Profile $profile */
     protected static $profile;
+    /** @var Video $videos */
+    protected static $videos = array();
     public static $debug = false;
 
     public static function getSettingsFile()
@@ -143,6 +145,8 @@ class OpenGraph
 
         $return .= self::getTypeValuesHTML();
 
+        $return .= self::getVideoHTML();
+
         return $return;
     }
 
@@ -227,17 +231,55 @@ class OpenGraph
          * generate html for og:title
          */
         if (self::$profile) {
-            if(self::$profile->getFirstName()) {
+            if (self::$profile->getFirstName()) {
                 $return[] = '<meta property="profile:first_name" content="' . self::$profile->getFirstName() . '">';
             }
-            if(self::$profile->getLastName()) {
+            if (self::$profile->getLastName()) {
                 $return[] = '<meta property="profile:last_name" content="' . self::$profile->getLastName() . '">';
             }
-            if(self::$profile->getUsername()) {
+            if (self::$profile->getUsername()) {
                 $return[] = '<meta property="profile:username" content="' . self::$profile->getUsername() . '">';
             }
-            if(self::$profile->getGender()) {
+            if (self::$profile->getGender()) {
                 $return[] = '<meta property="profile:gender" content="' . self::$profile->getGender() . '">';
+            }
+        }
+
+        return implode("\n\t", $return) . "\n\t";
+    }
+
+    public static function getVideoHTML()
+    {
+        global $REX;
+        $return = [];
+
+        /** @var Video $video */
+        foreach (self::$videos as $video) {
+            $return[] = '<meta property="og:video" content="' . $video->getUrl() . '">';
+
+            if ($video->getSecureUrl()) {
+                $return[] = '<meta property="og:video:secure_url" content="' . $video->getSecureUrl() . '">';
+            }
+            if ($video->getType()) {
+                $return[] = '<meta property="og:video:type" content="' . $video->getType() . '">';
+            }
+            if ($video->getWidth()) {
+                $return[] = '<meta property="og:video:width" content="' . $video->getWidth() . '">';
+            }
+            if ($video->getHeight()) {
+                $return[] = '<meta property="og:video:height" content="' . $video->getHeight() . '">';
+            }
+            if ($video->getReleaseDate()) {
+                $return[] = '<meta property="video:release_date" content="' . $video->getReleaseDate() . '">';
+            }
+            if ($video->getDirector()) {
+                $return[] = '<meta property="video:director" content="' . $video->getDirector() . '">';
+            }
+            if ($video->getDuration()) {
+                $return[] = '<meta property="video:duration" content="' . $video->getDuration() . '">';
+            }
+            foreach ($video->getTags() as $tag) {
+                $return[] = '<meta property="video:tag" content="' . $tag . '">';
             }
         }
 
@@ -349,7 +391,7 @@ class OpenGraph
     {
         if (!$image instanceof Image) {
             if (self::$debug) {
-                //throw new \Exception('Image must be a type of \maru\og\Image');
+                throw new \Exception('Image must be a type of \maru\og\Image');
             }
         } else {
             self::$images[] = $image;
@@ -362,6 +404,28 @@ class OpenGraph
     public static function getImages()
     {
         return self::$images;
+    }
+
+    /**
+     * @param $video Video
+     */
+    public static function addVideo($video)
+    {
+        if (!$video instanceof Video) {
+            if (self::$debug) {
+                throw new \Exception('Image must be a type of \maru\og\Image');
+            }
+        } else {
+            self::$videos[] = $video;
+        }
+    }
+
+    /**
+     * @return array
+     */
+    public static function getVideos()
+    {
+        return self::$videos;
     }
 
     /**
@@ -465,8 +529,6 @@ class OpenGraph
             self::$profile = $profile;
         }
     }
-
-
 
 
 }
